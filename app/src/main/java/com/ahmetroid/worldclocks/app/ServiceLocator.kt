@@ -1,20 +1,21 @@
 package com.ahmetroid.worldclocks.app
 
-import com.ahmetroid.worldclocks.data.ClocksRepository
+import com.ahmetroid.worldclocks.data.Repository
+import com.ahmetroid.worldclocks.network.Api
 
 object ServiceLocator {
 
     @Volatile
-    var repository: ClocksRepository? = null
+    var repository: Repository? = null
 
-    fun provideClocksRepository(): ClocksRepository {
+    fun provideClocksRepository(): Repository {
         synchronized(this) {
-            return repository ?: createClocksRepository()
+            return repository ?: createRepository()
         }
     }
 
-    private fun createClocksRepository(): ClocksRepository {
-        val newRepository = ClocksRepository()
+    private fun createRepository(): Repository {
+        val newRepository = Repository(Api.service)
         repository = newRepository
         return newRepository
     }
