@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">WorldClocks</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="city_name_label">Şehir Adı (Saat Farkı)</string>
+    <string name="background_color_label">Saat Arkaplan Rengi</string>
+    <string name="clock_color_label">Saat Sayaç-Rakam Rengi</string>
 </resources>

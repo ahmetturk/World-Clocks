@@ -1,27 +1,58 @@
 package com.ahmetroid.worldclocks.clocks
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.navigation.NavDirections
+import com.ahmetroid.worldclocks.Event
 import com.ahmetroid.worldclocks.base.BaseViewModel
 import com.ahmetroid.worldclocks.data.Repository
-import com.ahmetroid.worldclocks.data.model.City
-import com.ahmetroid.worldclocks.data.model.Color
+import com.ahmetroid.worldclocks.data.model.Clock
+import com.ahmetroid.worldclocks.data.model.Response
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ClocksViewModel(private val repository: Repository) : BaseViewModel() {
 
-    val cities = MutableLiveData<List<City>>()
+    private val _response = MutableLiveData<Response>()
+    val response: LiveData<Response>
+        get() = _response
 
-    val colors = MutableLiveData<List<Color>>()
+    val clocks =
+        response.map { response ->
+            response.cities.map { city ->
+                Clock(
+                    city.name,
+                    city.timeDifference,
+                    response.colors[0].code,
+                    response.colors[1].code
+                )
+            }
+        }
+
+    private val _direction = MutableLiveData<Event<NavDirections>>()
+    val direction: LiveData<Event<NavDirections>>
+        get() = _direction
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = repository.getResponse()
-            cities.postValue(response.cities)
-            colors.postValue(response.colors)
+            val data = repository.getResponse()
+            _response.postValue(data)
+        }
+    }
+
+    fun clockItemClicked(position: Int, isAddItem: Boolean) {
+        val clock = if (isAddItem.not()) {
+            clocks.value?.get(position)
+        } else {
+            null
+        }
+
+        response.value?.let { response ->
+            _direction.value = Event(
+                ClocksFragmentDirections.actionClocksFragmentToDetailFragment(
+                    response,
+                    clock
+                )
+            )
         }
     }
 

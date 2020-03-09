@@ -8,10 +8,15 @@ import com.ahmetroid.worldclocks.R
 import com.ahmetroid.worldclocks.data.model.Clock
 import com.ahmetroid.worldclocks.databinding.ItemClockBinding
 
-class ClocksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ClocksAdapter(private val callback: Callback) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private const val ITEM_CLOCK = 1
         private const val ITEM_ADD = 2
+    }
+
+    interface Callback {
+        fun onClockItemClick(position: Int = RecyclerView.NO_POSITION, isAddItem: Boolean = false)
     }
 
     private var list: List<Clock> = emptyList()
@@ -20,10 +25,10 @@ class ClocksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val layoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             ITEM_CLOCK -> ItemClockViewHolder(
-                ItemClockBinding.inflate(layoutInflater, parent, false)
+                ItemClockBinding.inflate(layoutInflater, parent, false), callback
             )
             else -> ItemAddViewHolder(
-                layoutInflater.inflate(R.layout.item_add, parent, false)
+                layoutInflater.inflate(R.layout.item_add, parent, false), callback
             )
         }
     }
@@ -49,12 +54,24 @@ class ClocksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 }
 
-class ItemClockViewHolder(private val binding: ItemClockBinding) :
+class ItemClockViewHolder(
+    private val binding: ItemClockBinding,
+    private val callback: ClocksAdapter.Callback
+) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(clock: Clock) {
         binding.clock = clock
+        binding.root.setOnClickListener {
+            callback.onClockItemClick(position = layoutPosition)
+        }
     }
 }
 
-class ItemAddViewHolder(root: View) :
-    RecyclerView.ViewHolder(root)
+class ItemAddViewHolder(root: View, callback: ClocksAdapter.Callback) :
+    RecyclerView.ViewHolder(root) {
+    init {
+        root.setOnClickListener {
+            callback.onClockItemClick(isAddItem = true)
+        }
+    }
+}

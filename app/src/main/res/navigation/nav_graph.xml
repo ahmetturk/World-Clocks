@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/clocksFragment">
+    app:startDestination="@id/clocksFragment"
+    tools:ignore="UnusedNavigation">
 
     <fragment
         android:id="@+id/clocksFragment"
         android:name="com.ahmetroid.worldclocks.clocks.ClocksFragment"
-        android:label="ClocksFragment" />
+        android:label="ClocksFragment">
+        <action
+            android:id="@+id/action_clocksFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.ahmetroid.worldclocks.detail.DetailFragment"
+        android:label="DetailFragment">
+        <argument
+            android:name="response"
+            app:argType="com.ahmetroid.worldclocks.data.model.Response" />
+        <argument
+            android:name="clock"
+            app:argType="com.ahmetroid.worldclocks.data.model.Clock"
+            app:nullable="true" />
+    </fragment>
 </navigation>
