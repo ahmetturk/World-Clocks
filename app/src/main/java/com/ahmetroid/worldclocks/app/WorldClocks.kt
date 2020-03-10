@@ -9,7 +9,7 @@ import timber.log.Timber.DebugTree
 class WorldClocks : Application() {
 
     val repository: Repository
-        get() = ServiceLocator.provideClocksRepository()
+        get() = ServiceLocator.provideClocksRepository(applicationContext)
 
     override fun onCreate() {
         super.onCreate()

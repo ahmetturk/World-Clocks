@@ -44,7 +44,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/cityNameLabel"
             app:layout_constraintTop_toBottomOf="@+id/cityNameLabel"
-            app:list="@{viewModel.cityNames}"
+            app:list="@{viewModel.cityNamesWithTimes}"
             app:selectedListener="@{viewModel.spinnerSelectedListener}" />
 
         <TextView
@@ -102,6 +102,7 @@
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_normal"
             android:layout_marginRight="@dimen/margin_normal"
+            android:onClick="@{() -> viewModel.okButtonClicked()}"
             android:text="@string/ok"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clockColorSpinner" />
@@ -112,6 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_normal"
             android:layout_marginRight="@dimen/margin_normal"
+            android:onClick="@{() -> viewModel.cancelButtonClicked()}"
             android:text="@string/cancel"
             app:layout_constraintEnd_toStartOf="@+id/okButton"
             app:layout_constraintTop_toTopOf="@+id/okButton" />

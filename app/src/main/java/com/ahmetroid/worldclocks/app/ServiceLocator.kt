@@ -1,6 +1,8 @@
 package com.ahmetroid.worldclocks.app
 
+import android.content.Context
 import com.ahmetroid.worldclocks.data.Repository
+import com.ahmetroid.worldclocks.db.AppDatabase
 import com.ahmetroid.worldclocks.network.Api
 
 object ServiceLocator {
@@ -8,14 +10,14 @@ object ServiceLocator {
     @Volatile
     var repository: Repository? = null
 
-    fun provideClocksRepository(): Repository {
+    fun provideClocksRepository(context: Context): Repository {
         synchronized(this) {
-            return repository ?: createRepository()
+            return repository ?: createRepository(context)
         }
     }
 
-    private fun createRepository(): Repository {
-        val newRepository = Repository(Api.service)
+    private fun createRepository(context: Context): Repository {
+        val newRepository = Repository(Api.service, AppDatabase.getInstance(context))
         repository = newRepository
         return newRepository
     }

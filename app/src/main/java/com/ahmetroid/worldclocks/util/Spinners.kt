@@ -15,6 +15,6 @@ fun bindList(spinner: Spinner, list: List<String>) {
 }
 
 @BindingAdapter("selectedListener")
-fun bindSelectedPosition(spinner: Spinner, listener: AdapterView.OnItemSelectedListener) {
+fun bindSelectedListener(spinner: Spinner, listener: AdapterView.OnItemSelectedListener) {
     spinner.onItemSelectedListener = listener
 }

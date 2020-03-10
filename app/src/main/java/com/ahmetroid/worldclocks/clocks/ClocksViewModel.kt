@@ -5,7 +5,6 @@ import androidx.navigation.NavDirections
 import com.ahmetroid.worldclocks.Event
 import com.ahmetroid.worldclocks.base.BaseViewModel
 import com.ahmetroid.worldclocks.data.Repository
-import com.ahmetroid.worldclocks.data.model.Clock
 import com.ahmetroid.worldclocks.data.model.Response
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,17 +15,7 @@ class ClocksViewModel(private val repository: Repository) : BaseViewModel() {
     val response: LiveData<Response>
         get() = _response
 
-    val clocks =
-        response.map { response ->
-            response.cities.map { city ->
-                Clock(
-                    city.name,
-                    city.timeDifference,
-                    response.colors[0].code,
-                    response.colors[1].code
-                )
-            }
-        }
+    val clocks = repository.getClocks()
 
     private val _direction = MutableLiveData<Event<NavDirections>>()
     val direction: LiveData<Event<NavDirections>>
