@@ -17,6 +17,5 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
     private val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(savedInstanceState: Bundle?) {
-
     }
 }

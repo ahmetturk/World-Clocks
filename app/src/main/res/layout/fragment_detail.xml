@@ -45,6 +45,7 @@
             app:layout_constraintStart_toStartOf="@+id/cityNameLabel"
             app:layout_constraintTop_toBottomOf="@+id/cityNameLabel"
             app:list="@{viewModel.cityNamesWithTimes}"
+            app:position="@{viewModel.cityNamePosition}"
             app:selectedListener="@{viewModel.spinnerSelectedListener}" />
 
         <TextView
@@ -68,6 +69,7 @@
             app:layout_constraintStart_toStartOf="@+id/backgroundColorLabel"
             app:layout_constraintTop_toBottomOf="@+id/backgroundColorLabel"
             app:list="@{viewModel.colorNames}"
+            app:position="@{viewModel.backgroundColorPosition}"
             app:selectedListener="@{viewModel.spinnerSelectedListener}" />
 
         <TextView
@@ -93,6 +95,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clockColorLabel"
             app:list="@{viewModel.colorNames}"
+            app:position="@{viewModel.clockColorPosition}"
             app:selectedListener="@{viewModel.spinnerSelectedListener}" />
 
         <Button

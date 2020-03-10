@@ -2,6 +2,7 @@ package com.ahmetroid.worldclocks.detail
 
 import android.view.View
 import android.widget.AdapterView
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -21,31 +22,40 @@ class DetailViewModel(
     val colorNames = args.response.colors.map { it.name }
     private val cityNames = args.response.cities.map { it.name }
     private val timeDifferences = args.response.cities.map { it.timeDifference }
+    private val colorCodes = args.response.colors.map { it.code }
 
-    private var cityNamePosition = 0
-    private var backgroundColorPosition = 0
-    private var clockColorPosition = 0
+    var cityNamePosition = MutableLiveData(0)
+    var backgroundColorPosition = MutableLiveData(0)
+    var clockColorPosition = MutableLiveData(0)
 
     val spinnerSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
             when (parent.id) {
-                R.id.cityNameSpinner -> cityNamePosition = position
-                R.id.backgroundColorSpinner -> backgroundColorPosition = position
-                R.id.clockColorSpinner -> clockColorPosition = position
+                R.id.cityNameSpinner -> cityNamePosition.value = position
+                R.id.backgroundColorSpinner -> backgroundColorPosition.value = position
+                R.id.clockColorSpinner -> clockColorPosition.value = position
             }
         }
 
         override fun onNothingSelected(parent: AdapterView<*>) {}
     }
 
+    init {
+        args.clock?.let {
+            cityNamePosition.value = cityNames.indexOf(it.cityName)
+            backgroundColorPosition.value = colorCodes.indexOf(it.backgroundColor)
+            clockColorPosition.value = colorCodes.indexOf(it.clockColor)
+        }
+    }
+
     fun okButtonClicked() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertToDb(
                 Clock(
-                    cityNames[cityNamePosition],
-                    timeDifferences[cityNamePosition],
-                    colorNames[backgroundColorPosition],
-                    colorNames[clockColorPosition]
+                    cityNames[cityNamePosition.value!!],
+                    timeDifferences[cityNamePosition.value!!],
+                    colorCodes[backgroundColorPosition.value!!],
+                    colorCodes[clockColorPosition.value!!]
                 )
             )
         }
@@ -54,7 +64,7 @@ class DetailViewModel(
     fun cancelButtonClicked() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteFromDb(
-                Clock(cityNames[cityNamePosition])
+                Clock(cityNames[cityNamePosition.value!!])
             )
         }
     }

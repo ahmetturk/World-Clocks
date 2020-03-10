@@ -18,3 +18,10 @@ fun bindList(spinner: Spinner, list: List<String>) {
 fun bindSelectedListener(spinner: Spinner, listener: AdapterView.OnItemSelectedListener) {
     spinner.onItemSelectedListener = listener
 }
+
+@BindingAdapter("position")
+fun bindPosition(spinner: Spinner, position: Int) {
+    if (spinner.selectedItemPosition != position) {
+        spinner.setSelection(position)
+    }
+}
