@@ -27,6 +27,10 @@ class ClocksFragment : BaseFragment<FragmentClocksBinding>(), ClocksAdapter.Call
         viewModel.direction.observe(viewLifecycleOwner, EventObserver { navDirection ->
             findNavController().navigate(navDirection)
         })
+
+        viewModel.filteredCities.observe(viewLifecycleOwner) { filteredCities ->
+            clocksAdapter.showItemAdd(filteredCities.isNotEmpty())
+        }
     }
 
     override fun onClockItemClick(position: Int, isAddItem: Boolean) {

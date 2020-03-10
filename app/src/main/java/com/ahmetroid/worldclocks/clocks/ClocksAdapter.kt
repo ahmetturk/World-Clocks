@@ -20,6 +20,7 @@ class ClocksAdapter(private val callback: Callback) :
     }
 
     private var list: List<Clock> = emptyList()
+    private var showItemAdd = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -33,7 +34,7 @@ class ClocksAdapter(private val callback: Callback) :
         }
     }
 
-    override fun getItemCount() = list.size + 1
+    override fun getItemCount() = if (showItemAdd) list.size + 1 else list.size
 
     override fun getItemViewType(position: Int) =
         when (position) {
@@ -52,6 +53,16 @@ class ClocksAdapter(private val callback: Callback) :
         notifyDataSetChanged()
     }
 
+    fun showItemAdd(show: Boolean) {
+        if (showItemAdd != show) {
+            showItemAdd = show
+            if (showItemAdd) {
+                notifyItemInserted(list.size)
+            } else {
+                notifyItemRemoved(list.size)
+            }
+        }
+    }
 }
 
 class ItemClockViewHolder(
