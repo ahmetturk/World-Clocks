@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.AdapterView
 import androidx.lifecycle.*
+import com.ahmetroid.worldclocks.Event
 import com.ahmetroid.worldclocks.R
 import com.ahmetroid.worldclocks.base.BaseViewModel
 import com.ahmetroid.worldclocks.data.Repository
@@ -12,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
-    args: DetailFragmentArgs,
+    private val args: DetailFragmentArgs,
     private val repository: Repository
 ) : BaseViewModel() {
 
@@ -36,6 +37,10 @@ class DetailViewModel(
         timeDifferences[it]
     }
 
+    private val _closeDetailFragment = MutableLiveData<Event<Unit>>()
+    val closeDetailFragment: LiveData<Event<Unit>>
+        get() = _closeDetailFragment
+
     val spinnerSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             when (parent?.id) {
@@ -58,6 +63,12 @@ class DetailViewModel(
 
     fun okButtonClicked() {
         viewModelScope.launch(Dispatchers.IO) {
+            args.clock?.cityName?.let {
+                if (it != cityNames[cityNamePosition.value!!]) {
+                    repository.deleteFromDb(Clock(it))
+                }
+            }
+
             repository.insertToDb(
                 Clock(
                     cityNames[cityNamePosition.value!!],
@@ -66,6 +77,7 @@ class DetailViewModel(
                     colorCodes[clockColorPosition.value!!]
                 )
             )
+            _closeDetailFragment.postValue(Event(Unit))
         }
     }
 
@@ -74,6 +86,7 @@ class DetailViewModel(
             repository.deleteFromDb(
                 Clock(cityNames[cityNamePosition.value!!])
             )
+            _closeDetailFragment.postValue(Event(Unit))
         }
     }
 
