@@ -1,0 +1,88 @@
+{
+  "response": {
+    "cities": [
+      {
+        "name": "Ankara",
+        "timeDifference": 0
+      },
+      {
+        "name": "Washington",
+        "timeDifference": -7
+      },
+      {
+        "name": "Tokyo",
+        "timeDifference": 6
+      },
+      {
+        "name": "Berlin",
+        "timeDifference": -2
+      },
+      {
+        "name": "Londra",
+        "timeDifference": -3
+      },
+      {
+        "name": "Paris",
+        "timeDifference": -2
+      },
+      {
+        "name": "Pekin",
+        "timeDifference": 5
+      },
+      {
+        "name": "Roma",
+        "timeDifference": -2
+      },
+      {
+        "name": "Ottava",
+        "timeDifference": -7
+      },
+      {
+        "name": "Madrid",
+        "timeDifference": -2
+      }
+    ],
+    "colors": [
+      {
+        "name": "Kırmızı",
+        "code": "#d50000"
+      },
+      {
+        "name": "Pembe",
+        "code": "#c51162"
+      },
+      {
+        "name": "Mor",
+        "code": "#aa00ff"
+      },
+      {
+        "name": "Mavi",
+        "code": "#2962ff"
+      },
+      {
+        "name": "Camgöbeği",
+        "code": "#00b8d4"
+      },
+      {
+        "name": "Yeşil",
+        "code": "#00c853"
+      },
+      {
+        "name": "Sarı",
+        "code": "#ffd600"
+      },
+      {
+        "name": "Turuncu",
+        "code": "#ff6d00"
+      },
+      {
+        "name": "Siyah",
+        "code": "#000000"
+      },
+      {
+        "name": "Beyaz",
+        "code": "#ffffff"
+      }
+    ]
+  }
+}
