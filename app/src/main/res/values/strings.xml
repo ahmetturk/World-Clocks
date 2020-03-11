@@ -5,4 +5,5 @@
     <string name="city_name_label">Şehir Adı (Saat Farkı)</string>
     <string name="background_color_label">Saat Arkaplan Rengi</string>
     <string name="clock_color_label">Saat Sayaç-Rakam Rengi</string>
+    <string name="add">Add</string>
 </resources>
