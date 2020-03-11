@@ -31,6 +31,8 @@ class ClocksFragment : BaseFragment<FragmentClocksBinding>(), ClocksAdapter.Call
         viewModel.filteredCities.observe(viewLifecycleOwner) { filteredCities ->
             clocksAdapter.showItemAdd(filteredCities.isNotEmpty())
         }
+
+        viewModel.checkTimeDifference.observe(viewLifecycleOwner) {}
     }
 
     override fun onClockItemClick(position: Int, isAddItem: Boolean) {

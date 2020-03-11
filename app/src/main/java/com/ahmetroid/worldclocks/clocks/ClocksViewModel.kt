@@ -10,11 +10,14 @@ import com.ahmetroid.worldclocks.data.model.Clock
 import com.ahmetroid.worldclocks.data.model.Response
 import com.ahmetroid.worldclocks.util.addSources
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ClocksViewModel(private val repository: Repository) : BaseViewModel() {
 
     private val response = MutableLiveData<Response>()
+    private var lastResponse: Response? = null
+
     val clocks = repository.getClocks()
 
     val filteredCities = MediatorLiveData<List<City>>()
@@ -31,14 +34,33 @@ class ClocksViewModel(private val repository: Repository) : BaseViewModel() {
         }
 
 
+    val checkTimeDifference = response.map {
+        clocks.value?.forEach { clock ->
+            val city = response.value?.cities?.find { it.name == clock.cityName }
+            city?.let {
+                if (city.timeDifference != clock.timeDifference) {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        repository.insertToDb(clock.copy(timeDifference = city.timeDifference))
+                    }
+                }
+            }
+        }
+    }
+
     private val _direction = MutableLiveData<Event<NavDirections>>()
     val direction: LiveData<Event<NavDirections>>
         get() = _direction
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val data = repository.getResponse()
-            response.postValue(data)
+            while (true) {
+                val data = repository.getResponse()
+                if (lastResponse == null || lastResponse != data) {
+                    lastResponse = data
+                    response.postValue(data)
+                }
+                delay(5000)
+            }
         }
     }
 
