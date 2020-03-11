@@ -1,11 +1,9 @@
 package com.ahmetroid.worldclocks.detail
 
+import android.graphics.Color
 import android.view.View
 import android.widget.AdapterView
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ahmetroid.worldclocks.R
 import com.ahmetroid.worldclocks.base.BaseViewModel
 import com.ahmetroid.worldclocks.data.Repository
@@ -24,13 +22,23 @@ class DetailViewModel(
     private val timeDifferences = args.response.cities.map { it.timeDifference }
     private val colorCodes = args.response.colors.map { it.code }
 
-    var cityNamePosition = MutableLiveData(0)
-    var backgroundColorPosition = MutableLiveData(0)
-    var clockColorPosition = MutableLiveData(0)
+    val cityNamePosition = MutableLiveData(0)
+    val backgroundColorPosition = MutableLiveData(0)
+    val clockColorPosition = MutableLiveData(0)
+
+    val backgroundColor = backgroundColorPosition.map {
+        Color.parseColor(colorCodes[it])
+    }
+    val clockColor = clockColorPosition.map {
+        Color.parseColor(colorCodes[it])
+    }
+    val timeDifference = cityNamePosition.map {
+        timeDifferences[it]
+    }
 
     val spinnerSelectedListener = object : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-            when (parent.id) {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            when (parent?.id) {
                 R.id.cityNameSpinner -> cityNamePosition.value = position
                 R.id.backgroundColorSpinner -> backgroundColorPosition.value = position
                 R.id.clockColorSpinner -> clockColorPosition.value = position

@@ -1,6 +1,5 @@
 package com.ahmetroid.worldclocks.detail
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.ahmetroid.worldclocks.R
@@ -15,7 +14,4 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
     override fun getLayoutResId() = R.layout.fragment_detail
 
     private val args: DetailFragmentArgs by navArgs()
-
-    override fun onCreateView(savedInstanceState: Bundle?) {
-    }
 }

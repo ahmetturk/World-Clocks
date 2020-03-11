@@ -13,13 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <com.ahmetroid.worldclocks.view.ClockView
             android:id="@+id/clockTextView"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
-            android:text="CLOCK"
+            app:backgroundColor="@{viewModel.backgroundColor}"
+            app:clockColor="@{viewModel.clockColor}"
+            app:timeDifference="@{viewModel.timeDifference}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
